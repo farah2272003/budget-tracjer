@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Tracker Dashboard page</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+
+<body>
+  <header>
+    <h2 id="welcomeUser"><i class="fa-solid fa-user-circle"></i> Welcome</h2>
+    <div class="right-header">
+      <div class="input-icon">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search" placeholder="Search transactions...">
+      </div>
+      <div class="input-icon">
+        <i class="fa-solid fa-filter"></i>
+        <select id="filterCategory">
+          <option value="all">All Categories</option>
+        </select>
+      </div>
+      <button id="themeToggle" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+      <button id="logoutBtn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    <div>
+      <div class="summary">
+        <div class="card balance-card">
+          <i class="fa-solid fa-wallet"></i> Balance: $<span id="balanceCard">0</span>
+        </div>
+        <div class="card income-card">
+          <i class="fa-solid fa-arrow-trend-up"></i> Income: $<span id="incomeCard">0</span>
+        </div>
+        <div class="card expense-card">
+          <i class="fa-solid fa-arrow-trend-down"></i> Expense: $<span id="expenseCard">0</span>
+        </div>
+        <div class="card owe-card">
+          <i class="fa-solid fa-hand-holding-dollar"></i> Owe Money: $<span id="oweCard">0</span>
+        </div>
+      </div>
+
+      <div id="balanceWarning" style="display:none; 
+          background: #ff5252; 
+          color: white; 
+          padding: 8px; 
+          border-radius: 6px; 
+          margin: 10px 20px;
+          font-weight: bold;
+          text-align: center;">
+      </div>
+
+      <div class="form-section card">
+        <h3><i class="fa-solid fa-plus-circle"></i> Add Transaction</h3>
+        <div class="input-icon">
+          <i class="fa-solid fa-pen"></i>
+          <input type="text" id="desc" placeholder="Description">
+        </div>
+        <div class="input-icon">
+          <i class="fa-solid fa-dollar-sign"></i>
+          <input type="number" id="amount" placeholder="Amount">
+        </div>
+        <div class="input-icon">
+          <i class="fa-solid fa-exchange-alt"></i>
+          <select id="type">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div class="input-icon">
+          <i class="fa-solid fa-tags"></i>
+          <input type="text" id="category" placeholder="Category (optional)">
+        </div>
+        <button id="addTransaction"><i class="fa-solid fa-check"></i> Add</button>
+      </div>
+    </div>
+
+    <div class="card chart-card">
+      <h3><i class="fa-solid fa-chart-pie"></i> Category Overview</h3>
+      <canvas id="categoryChart"></canvas>
+    </div>
+  </div>
+
+  <section class="transactions">
+    <h3><i class="fa-solid fa-list"></i> Transaction History</h3>
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortTable('date')"><i class="fa-solid fa-calendar-day"></i> Date</th>
+          <th><i class="fa-solid fa-pen"></i> Description</th>
+          <th onclick="sortTable('amount')"><i class="fa-solid fa-dollar-sign"></i> Amount</th>
+          <th><i class="fa-solid fa-exchange-alt"></i> Type</th>
+          <th><i class="fa-solid fa-tags"></i> Category</th>
+          <th><i class="fa-solid fa-gears"></i> Actions</th>
+        </tr>
+      </thead>
+      <tbody id="transactionTableBody"></tbody>
+    </table>
+  </section>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-content">
+      <h3><i class="fa-solid fa-pen-to-square"></i> Edit Transaction</h3>
+      <div class="input-icon">
+        <i class="fa-solid fa-pen"></i>
+        <input type="text" id="editDesc" placeholder="Description">
+      </div>
+      <div class="input-icon">
+        <i class="fa-solid fa-dollar-sign"></i>
+        <input type="number" id="editAmount" placeholder="Amount">
+      </div>
+      <div class="input-icon">
+        <i class="fa-solid fa-exchange-alt"></i>
+        <select id="editType">
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </div>
+      <div class="input-icon">
+        <i class="fa-solid fa-tags"></i>
+        <input type="text" id="editCategory" placeholder="Category">
+      </div>
+      <button id="saveEdit"><i class="fa-solid fa-check"></i> Save</button>
+      <button id="closeEdit"><i class="fa-solid fa-xmark"></i> Cancel</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
